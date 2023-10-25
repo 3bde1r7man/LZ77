@@ -7,7 +7,7 @@
 LZ77C::LZ77C()
 {
 	cout << "Please enter the text to compresse : ";
-	cin >> originalStream;
+	getline(cin, originalStream);
 	search = "";
 	buffer = "";
 	compression();

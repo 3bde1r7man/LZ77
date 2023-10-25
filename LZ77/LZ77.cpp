@@ -13,6 +13,11 @@ LZ77C::LZ77C()
 	compression();
 }
 
+LZ77C::~LZ77C()
+{
+	printToFile();
+}
+
 void LZ77C::compression()
 {
 	tag t;
@@ -68,4 +73,18 @@ void LZ77C::printCs()
 		cout << "< " << tags[i].getPosition() << " , " << tags[i].getLength() << " , " << tags[i].getNextChar() << " > ";
 	}
 	cout << '\n';
+}
+
+void LZ77C::printToFile()
+{
+	fstream myFile;
+	myFile.open("Tags.txt", ios::out);
+	for (int i = 0; i < tags.size(); i++) {
+		myFile << "< " << tags[i].getPosition() << " , " << tags[i].getLength() << " , " << tags[i].getNextChar() << " >\n";
+	}
+	myFile.close();
+}
+
+LZ77D::LZ77D()
+{
 }

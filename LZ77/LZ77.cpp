@@ -7,7 +7,8 @@
 LZ77C::LZ77C()
 {
 	cout << "Please enter the text to compresse : ";
-	getline(cin, originalStream);
+	cin.ignore();
+	getline(cin, originalStream, '\n');
 	search = "";
 	buffer = "";
 	compression();
@@ -80,11 +81,74 @@ void LZ77C::printToFile()
 	fstream myFile;
 	myFile.open("Tags.txt", ios::out);
 	for (int i = 0; i < tags.size(); i++) {
-		myFile << "< " << tags[i].getPosition() << " , " << tags[i].getLength() << " , " << tags[i].getNextChar() << " >\n";
+		myFile << tags[i].getPosition() << " " << tags[i].getLength() << " " << tags[i].getNextChar() << "\n";
 	}
 	myFile.close();
 }
 
 LZ77D::LZ77D()
 {
+	readFile();
+	originalStream = "";
+	decompress();
+}
+
+LZ77D::~LZ77D() 
+{
+	printToFile();
+}
+// read the Tags from the file
+void LZ77D::readFile()
+{
+	fstream myFile;
+	myFile.open("Tags.txt", ios::in);
+	string temp;
+	tag t;
+	while (getline(myFile, temp))
+	{
+		stringstream tagLine(temp);
+		string index;
+		tagLine >> index;
+		t.setPosition(stoi(index));
+		tagLine >> index;
+		t.setLength(stoi(index));
+		tagLine >> index;
+		t.setNextChar(index[0]);
+		tags.push_back(t);
+	}
+	myFile.close();
+}
+
+void LZ77D::decompress()
+{
+	
+	for (int i = 0; i < tags.size(); i++)
+	{
+		int P = tags[i].getPosition();
+		int L = tags[i].getLength();
+		char N = tags[i].getNextChar();
+		// to not put a trash in the file
+		if (N == '\0')
+		{
+			originalStream += originalStream.substr(originalStream.size() - P, L);
+		}
+		else
+		{
+			originalStream += originalStream.substr(originalStream.size() - P, L) + N;
+		}
+	}
+
+}
+// print in terminal
+void LZ77D::printOs()
+{
+	cout << originalStream << '\n';
+}
+// print in file
+void LZ77D::printToFile()
+{
+	fstream myFile;
+	myFile.open("Text.txt", ios::out);
+	myFile << originalStream << '\n';
+	myFile.close();
 }

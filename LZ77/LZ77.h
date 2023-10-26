@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <sstream>
+
 using namespace std;
 class tag {
 public:
@@ -35,8 +37,11 @@ class LZ77D
 {
 public:
 	LZ77D();
-	
-
+	~LZ77D();
+	void readFile();
+	void decompress();
+	void printOs();
+	void printToFile();
 private:
 	string originalStream;
 	vector<tag> tags;

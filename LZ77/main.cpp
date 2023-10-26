@@ -6,8 +6,37 @@
 
 #include "LZ77.h"
 int main() {
-	LZ77C com;
-	com.printCs();
+	while (true)
+	{
+		cout << "1- Comperess\n";
+		cout << "2- Decompress\n";
+		cout << "3- Exit\n";
+		cout << ">> ";
+		int choice;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+		{
+			LZ77C comp;
+			comp.printCs();
+			break;
+		}
+		case 2:
+		{
+			LZ77D decomp;
+			decomp.printOs();
+			break;
+		}
+		case 3:
+			exit(0);
+		default:
+			cout << "Please enter a valid input!!\n";
+			break;
+		}
+	}
+	
+	
 }
 
 // some test cases for lz77 comperation
